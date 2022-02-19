@@ -1,7 +1,9 @@
-import AppHome from './home'
+import AppHome from '../components/home'
 
-export default function Home() {
+const Home = () => {
   return (
     <AppHome/>
   )
 }
+
+export default Home
