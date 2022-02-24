@@ -1,10 +1,12 @@
-import SearchAppBar from './navbar'
+import AppFooter from './footer';
+import AppHeader from './header'
 
 const Layout = ({ children }) => {
   return (
     <>
-      <SearchAppBar />
+      <AppHeader />
       <main>{children}</main>
+      <AppFooter />
     </>
   )
 }
