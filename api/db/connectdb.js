@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
 const ConnectDb = async () => {
+    /*add 'mongo' to hosts file*/
     const uri = "mongodb://mongo:27017/user-app";
     try{
         mongoose.connect(uri, { useUnifiedTopology: true, useNewUrlParser: true });
