@@ -2,7 +2,7 @@ version: "3"
 services:
   user-app-frontend:
     build: ./frontend
-    image: user-app-frontend
+    # image: user-app-frontend
     stdin_open: true
     ports: 
       - "3000:3000"
@@ -12,7 +12,7 @@ services:
       - user-app-api
   user-app-api:
     build: ./api
-    image: user-app-api
+    # image: user-app-api
     ports:
       - "8000:8000"
     networks:
