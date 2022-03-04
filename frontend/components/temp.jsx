@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import myApi from "../api/api";
 
 const Temp = () => {
 
@@ -14,15 +15,22 @@ const Temp = () => {
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
-    setLoading(true)
-    fetch(`http://localhost:8000/users`)
-      .then((res) => res.json())
-      .then((data) => {
-        setData(data)
-        setLoading(false)
-      })
+    getData()
+    // setLoading(true)
+    // fetch(`http://localhost:8000/users`)
+    //   .then((res) => res.json())
+    //   .then((data) => {
+    //     setData(data)
+    //     setLoading(false)
+    //   })
   }, [])
 
+  const getData = async () => {
+    const result = await myApi.getUserData()
+    const data = await result.json()
+    setData(data)
+    setLoading(false)
+  }
 
   if (isLoading) return <p>Loading...</p>
   if (!data) return <p>No Users</p>
