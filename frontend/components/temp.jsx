@@ -8,14 +8,20 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import myApi from "../api/api";
+import { useSelector, useDispatch } from 'react-redux';
+import { selectUser } from '../redux/slice/userSlice';
 
 const Temp = () => {
 
+  const user = useSelector((state) => state.user)
+  const dispatch = useDispatch();
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(false)
 
   useEffect(() => {
+    setLoading(true)
     getData()
+    console.log('1', user)
     // setLoading(true)
     // fetch(`http://localhost:8000/users`)
     //   .then((res) => res.json())
