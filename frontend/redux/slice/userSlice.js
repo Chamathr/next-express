@@ -1,42 +1,53 @@
 import { createSlice } from '@reduxjs/toolkit';
+import myApi from "../../api/api";
 
-export const slice = createSlice({
+const initialState = {
+  loading: false,
+  hasErrors: false,
+  users: [],
+}
+
+export const userSlice = createSlice({
   name: 'user',
-  initialState: {
-    value: 'null',
-  },
+  initialState,
   reducers: {
-    increment: state => {
-      state.value += 1;
+    getUsers: state => {
+      state.loading = true
     },
-    decrement: state => {
-      state.value -= 1;
+    getUsersSuccess: (state, { payload }) => {
+      state.users = payload
+      state.loading = false
+      state.hasErrors = false
     },
-    incrementByAmount: (state, action) => {
-      state.value += action.payload;
+    getUsersFailure: state => {
+      state.loading = false
+      state.hasErrors = true
     },
-    multiplyByAmount: (state, action) => {
-      state.value *= action.payload
-    }
   },
 });
 
+/*Three actions generated from the slice*/
+export const { getUsers, getUsersSuccess, getUsersFailure } = userSlice.actions
 
-// export const { increment, decrement, incrementByAmount, multiplyByAmount } = slice.actions;
 
-// The function below is called a thunk and allows us to perform async logic. It
-// can be dispatched like a regular action: `dispatch(incrementAsync(10))`. This
-// will call the thunk with the `dispatch` function as the first argument. Async
-// code can then be executed and other actions can be dispatched
-// export const incrementAsync = amount => dispatch => {
-//   setTimeout(() => {
-//     dispatch(incrementByAmount(amount));
-//   }, 1000);
-// };
+/*A selector*/
+export const userSelector = state => state.user
 
-// The function below is called a selector and allows us to select a value from
-// the state. Selectors can also be defined inline where they're used instead of
-// in the slice file. For example: `useSelector((state) => state.counter.value)`
-export const selectUser = state => state.user.value;
+/*The reducer*/
+export default userSlice.reducer
 
-export default slice.reducer;
+/*Asynchronous thunk action*/
+export const  fetchUsers = () => {
+  return async dispatch => {
+    dispatch(getUsers())
+
+    try {
+      const response = await myApi.getUserData()
+      const data = await response.json()
+
+      dispatch(getUsersSuccess(data))
+    } catch (error) {
+      dispatch(getUsersFailure())
+    }
+  }
+}

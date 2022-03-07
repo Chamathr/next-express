@@ -1,11 +1,11 @@
 import AppHome from '../components/home'
-import Temp from '../components/temp'
+import Users from '../components/users'
 
 const Home = () => {
   return (
     <>
       <AppHome/>
-      <Temp />
+      <Users />
     </>
   )
 }

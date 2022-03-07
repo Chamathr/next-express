@@ -9,27 +9,16 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import myApi from "../api/api";
 import { useSelector, useDispatch } from 'react-redux';
-import { selectUser } from '../redux/slice/userSlice';
+import { userSelector, fetchUsers } from '../redux/slice/userSlice';
 
-const Temp = () => {
+const Users = () => {
 
-  const user = useSelector((state) => state.user)
+  const { users, loading, hasErrors } = useSelector(userSelector)
   const dispatch = useDispatch();
+
+  /*
   const [data, setData] = useState(null)
   const [isLoading, setLoading] = useState(false)
-
-  useEffect(() => {
-    setLoading(true)
-    getData()
-    console.log('1', user)
-    // setLoading(true)
-    // fetch(`http://localhost:8000/users`)
-    //   .then((res) => res.json())
-    //   .then((data) => {
-    //     setData(data)
-    //     setLoading(false)
-    //   })
-  }, [])
 
   const getData = async () => {
     const result = await myApi.getUserData()
@@ -38,8 +27,20 @@ const Temp = () => {
     setLoading(false)
   }
 
-  if (isLoading) return <p>Loading...</p>
-  if (!data) return <p>No Users</p>
+  useEffect(() => {
+    setLoading(true)
+    getData()
+    setLoading(false)
+  }, [])
+  */
+
+  useEffect(() => {
+    dispatch(fetchUsers())
+  }, [dispatch])
+
+  if (loading) return <p>Loading...</p>
+  if (hasErrors) return <p>Error...</p>
+  if (!users) return <p>No Users...</p>
 
   const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -77,7 +78,7 @@ const Temp = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((data, key) => (
+          {users.map((data, key) => (
             <StyledTableRow key={key}>
               <StyledTableCell component="th" scope="row">
                 {data.name}
@@ -94,4 +95,4 @@ const Temp = () => {
   )
 }
 
-export default Temp
+export default Users
