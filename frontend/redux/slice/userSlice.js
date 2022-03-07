@@ -33,21 +33,19 @@ export const { getUsers, getUsersSuccess, getUsersFailure } = userSlice.actions
 /*A selector*/
 export const userSelector = state => state.user
 
-/*The reducer*/
-export default userSlice.reducer
-
 /*Asynchronous thunk action*/
 export const  fetchUsers = () => {
   return async dispatch => {
     dispatch(getUsers())
-
     try {
       const response = await myApi.getUserData()
       const data = await response.json()
-
       dispatch(getUsersSuccess(data))
     } catch (error) {
       dispatch(getUsersFailure())
     }
   }
 }
+
+/*The reducer*/
+export default userSlice.reducer
