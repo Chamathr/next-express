@@ -1,8 +1,9 @@
 version: "3"
 services:
-  user-app-frontend:
+  user-app-client:
     build: ./frontend
-    # image: user-app-frontend
+    image: user-app-client-img
+    container_name: user-app-client-cont
     stdin_open: true
     ports: 
       - "3000:3000"
@@ -12,15 +13,17 @@ services:
       - user-app-api
   user-app-api:
     build: ./api
-    # image: user-app-api
+    image: user-app-api-img
+    container_name: user-app-api-cont
     ports:
-      - "8000:8000"
+      - "9000:9000"
     networks:
       - mern-app
     depends_on:
       - mongo
   mongo:
     image: mongo:3.6.19-xenial
+    container_name: user-app-db-cont
     ports:
       - "27017:27017"
     networks:
