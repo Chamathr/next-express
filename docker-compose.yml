@@ -16,7 +16,7 @@ services:
     image: user-app-api-img
     container_name: user-app-api-cont
     ports:
-      - "9000:9000"
+      - "8000:8000"
     networks:
       - mern-app
     depends_on:
