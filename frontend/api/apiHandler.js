@@ -33,7 +33,7 @@ export const createAPIClient = (apiBaseURL) => ({
     return fetch(constructApiURL(apiBaseURL, path), {
       method: "POST",
       headers: getHeaders(stringify),
-      credentials: "include",
+      // credentials: "include",
       timeout: 1000,
       body: stringify ? JSON.stringify(data) : data
     });

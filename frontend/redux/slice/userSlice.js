@@ -40,6 +40,19 @@ export const  fetchUsers = () => {
     try {
       const response = await myApi.getUserData()
       const data = await response.json()
+      dispatch(getUsersSuccess(data.result))
+    } catch (error) {
+      dispatch(getUsersFailure())
+    }
+  }
+}
+
+export const  addUsers = () => {
+  return async dispatch => {
+    dispatch(getUsers())
+    try {
+      const response = await myApi.addUserData()
+      const data = await response.json()
       dispatch(getUsersSuccess(data))
     } catch (error) {
       dispatch(getUsersFailure())
