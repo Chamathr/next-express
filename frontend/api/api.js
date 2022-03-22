@@ -7,7 +7,7 @@ const myApiClient = createAPIClient(baseUri);
 
 const myApi = {
   getUserData: () => myApiClient.doGet("/users"),
-  addUserData: () => myApiClient.doPost("/users", data)
+  addUserData: (data) => myApiClient.doPost("/users", data)
 };
 
 export default myApi;

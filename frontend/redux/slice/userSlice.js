@@ -2,9 +2,13 @@ import { createSlice } from '@reduxjs/toolkit';
 import myApi from "../../api/api";
 
 const initialState = {
-  loading: false,
-  hasErrors: false,
-  users: [],
+  getUserLoading: false,
+  getUserError: false,
+  getUserData: [],
+
+  addUserLoading: false,
+  addUserError: false,
+  addUserData: [],
 }
 
 export const userSlice = createSlice({
@@ -12,29 +16,42 @@ export const userSlice = createSlice({
   initialState,
   reducers: {
     getUsers: state => {
-      state.loading = true
+      state.userLoading = true
     },
     getUsersSuccess: (state, { payload }) => {
-      state.users = payload
-      state.loading = false
-      state.hasErrors = false
+      state.getUserData = payload
+      state.getUserLoading = false
+      state.getUserError = false
     },
     getUsersFailure: state => {
-      state.loading = false
-      state.hasErrors = true
+      state.getUserLoading = false
+      state.getUserError = true
     },
+
+    addUser: state => {
+      state.addUserLoading = true
+    },
+    addUserSuccess: (state, { payload }) => {
+      state.addUserData = payload
+      state.addUserLoading = false
+      state.addUserError = false
+    },
+    addUserFailure: state => {
+      state.addUserLoading = false
+      state.addUserError = true
+    }
   },
 });
 
 /*Three actions generated from the slice*/
-export const { getUsers, getUsersSuccess, getUsersFailure } = userSlice.actions
+export const { getUsers, getUsersSuccess, getUsersFailure, addUser, addUserSuccess, addUserFailure } = userSlice.actions
 
 
 /*A selector*/
 export const userSelector = state => state.user
 
 /*Asynchronous thunk action*/
-export const  fetchUsers = () => {
+export const fetchUsers = () => {
   return async dispatch => {
     dispatch(getUsers())
     try {
@@ -47,15 +64,15 @@ export const  fetchUsers = () => {
   }
 }
 
-export const  addUsers = () => {
+export const addUsers = data => {
   return async dispatch => {
-    dispatch(getUsers())
+    dispatch(addUser())
     try {
-      const response = await myApi.addUserData()
-      const data = await response.json()
-      dispatch(getUsersSuccess(data))
+      const response = await myApi.addUserData(data)
+      const result = await response.json()
+      dispatch(addUserSuccess(result))
     } catch (error) {
-      dispatch(getUsersFailure())
+      dispatch(addUserFailure())
     }
   }
 }
