@@ -14,6 +14,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm } from "react-hook-form";
 import { Password } from '@mui/icons-material';
 import { InputLabel } from '@mui/material';
+import { useState } from 'react'
 
 const Copyright = (props) => {
   return (
@@ -33,7 +34,8 @@ const theme = createTheme();
 
 const SignIn = () => {
 
-const { register, handleSubmit , formState: { errors }} = useForm(); 
+const { register, handleSubmit , formState: { errors }} = useForm();
+const userName = register("userName", { required: true, minLength: 5 }); 
  
 const onSignIn = async event => {
 
@@ -59,6 +61,8 @@ const onSignIn = async event => {
     // result.user => 'Ada Lovelace'
   }  
 
+  const [name, setName] = useState('')
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -79,7 +83,7 @@ const onSignIn = async event => {
           </Typography>
           <Box component="form" onSubmit={handleSubmit(onSignIn)} sx={{ mt: 1 }}>
             <TextField
-              {...register("userName", { required: true, maxLength: 20 })}
+              {...register("userName")}
               margin="normal"
               fullWidth
               id="userName"
@@ -87,8 +91,15 @@ const onSignIn = async event => {
               name="userName"
               autoComplete="user name"
               autoFocus
+              onChange={(e) => {
+                userName.onChange(e);
+                setName(e.target.value)
+                }
+              }
             />
             {errors.userName?.type === 'required' && <label style={{color:'red'}}>User name is required</label>}
+            {errors.userName?.type === 'minLength' && <label style={{color:'red'}}>Need to exceed min length</label>}
+
             
             <TextField
               {...register("password", { required: true, pattern: /^[A-Za-z]+$/i, type: Password })}

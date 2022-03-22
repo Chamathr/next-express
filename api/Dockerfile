@@ -2,12 +2,12 @@ FROM node:16.13.2
 
 WORKDIR /app
 
-COPY package.json ./
-COPY package-lock.json ./
+COPY . /app
+
+# COPY package.json /app
+# COPY package-lock.json /app
 
 RUN npm install
-
-COPY . ./
 
 EXPOSE 8000
 
