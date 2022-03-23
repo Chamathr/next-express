@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useEffect } from "react"
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -7,10 +7,11 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import myApi from "../api/api";
 import { useSelector, useDispatch } from 'react-redux';
 import { userSelector, fetchUsers } from '../redux/slice/userSlice';
 import Link from 'next/link'
+import { Button } from 'react-bootstrap'
+import styles from '../styles/Users.module.scss'
 
 const Users = () => {
 
@@ -55,10 +56,10 @@ const Users = () => {
 
   const StyledTableRow = styled(TableRow)(({ theme }) => ({
     '&:nth-of-type(odd)': {
-      backgroundColor: '#E0FFFF',
+      backgroundColor: '#FFFFFF',
     },
     '&:nth-of-type(even)': {
-      backgroundColor: '#ADD8E6',
+      backgroundColor: '#e6f2ff',
     },
     // hide last border
     '&:last-child td, &:last-child th': {
@@ -68,37 +69,42 @@ const Users = () => {
 
   return (
     <>
-      <div style={{ marginTop: "50px" }}>
-        <TableContainer component={Paper}>
-          <Table sx={{ minWidth: 700 }} aria-label="customized table">
-            <TableHead>
-              <TableRow>
-                <StyledTableCell>Name</StyledTableCell>
-                <StyledTableCell align="right">Email</StyledTableCell>
-                <StyledTableCell align="right">Age</StyledTableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {getUserData.map((data, key) => (
-                <StyledTableRow key={key}>
-                  <StyledTableCell component="th" scope="row">
-                    {data.name}
-                  </StyledTableCell>
-                  <StyledTableCell align="right">{data.email}</StyledTableCell>
-                  <StyledTableCell align="right">{data.age}</StyledTableCell>
-                </StyledTableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div>
+      <div className={styles.root}>
 
-      <div>
-        <Link href={'/userForm'}>
-          <button>
-            Add User
-          </button>
-        </Link>
+        <div>
+          <TableContainer component={Paper}>
+            <Table sx={{ minWidth: 700 }} aria-label="customized table">
+              <TableHead>
+                <TableRow>
+                  <StyledTableCell>Name</StyledTableCell>
+                  <StyledTableCell align="right">Email</StyledTableCell>
+                  <StyledTableCell align="right">Age</StyledTableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {getUserData.map((data, key) => (
+                  <StyledTableRow key={key}>
+                    <StyledTableCell component="th" scope="row">
+                      {data.name}
+                    </StyledTableCell>
+                    <StyledTableCell align="right">{data.email}</StyledTableCell>
+                    <StyledTableCell align="right">{data.age}</StyledTableCell>
+                  </StyledTableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+
+
+        <div className={styles.btnAdd}>
+          <Link href={'/userForm'}>
+            <Button>
+              Add User
+            </Button>
+          </Link>
+        </div>
+
       </div>
     </>
   )

@@ -4,7 +4,7 @@ import Users from '../components/users'
 const Home = () => {
   return (
     <>
-      <AppHome/>
+      {/* <AppHome/> */}
       <Users />
     </>
   )
