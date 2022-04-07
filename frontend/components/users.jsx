@@ -8,7 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { userSelector, fetchUsers } from '../redux/slice/userSlice';
+import { userSelector, fetchUsers, deleteUsers } from '../redux/slice/userSlice';
 import Link from 'next/link'
 import { Button } from 'react-bootstrap'
 import styles from '../styles/Users.module.scss'
@@ -39,6 +39,11 @@ const Users = () => {
   useEffect(() => {
     dispatch(fetchUsers())
   }, [dispatch])
+
+  const handleDelete = (data) => {
+      dispatch(deleteUsers(data))
+      dispatch(fetchUsers())
+  }
 
   if (getUserLoading) return <p>Loading...</p>
   if (getUserError) return <p>Error...</p>
@@ -79,6 +84,7 @@ const Users = () => {
                   <StyledTableCell>Name</StyledTableCell>
                   <StyledTableCell align="right">Email</StyledTableCell>
                   <StyledTableCell align="right">Age</StyledTableCell>
+                  <StyledTableCell align="right">Action</StyledTableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -89,6 +95,16 @@ const Users = () => {
                     </StyledTableCell>
                     <StyledTableCell align="right">{data.email}</StyledTableCell>
                     <StyledTableCell align="right">{data.age}</StyledTableCell>
+
+                    <StyledTableCell align="right">
+                      <Button className={styles.btnGap}>
+                        Edit
+                      </Button>
+                      <Button onClick={() => handleDelete(data)}>
+                        Delete
+                      </Button>
+                    </StyledTableCell>
+
                   </StyledTableRow>
                 ))}
               </TableBody>

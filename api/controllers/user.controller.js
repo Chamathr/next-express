@@ -58,7 +58,7 @@ const updateUser = async (req, res, next) => {
 
 const deleteUser = async (req, res, next) => {
     try{
-        const filter = { _id: req.body.id };
+        const filter = { _id: req.body._id };
         await User.findOneAndDelete(filter)
         res.send('User deleted successfully')
         

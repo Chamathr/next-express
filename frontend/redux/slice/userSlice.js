@@ -9,6 +9,10 @@ const initialState = {
   addUserLoading: false,
   addUserError: false,
   addUserData: [],
+
+  deleteUserLoading: false,
+  deleteUserError: false,
+  deleteUserData: [],
 }
 
 export const userSlice = createSlice({
@@ -39,12 +43,25 @@ export const userSlice = createSlice({
     addUserFailure: state => {
       state.addUserLoading = false
       state.addUserError = true
+    },
+
+    deleteUser: state => {
+      state.deleteUserLoading = true
+    },
+    deleteUserSuccess: (state, { payload }) => {
+      state.deleteUserData = payload
+      state.deleteUserLoading = false
+      state.deleteUserError = false
+    },
+    deleteUserFailure: state => {
+      state.deleteUserLoading = false
+      state.deleteUserError = true
     }
   },
 });
 
 /*Three actions generated from the slice*/
-export const { getUsers, getUsersSuccess, getUsersFailure, addUser, addUserSuccess, addUserFailure } = userSlice.actions
+export const { getUsers, getUsersSuccess, getUsersFailure, addUser, addUserSuccess, addUserFailure, deleteUser, deleteUserSuccess, deleteUserFailure } = userSlice.actions
 
 
 /*A selector*/
@@ -73,6 +90,19 @@ export const addUsers = data => {
       dispatch(addUserSuccess(result))
     } catch (error) {
       dispatch(addUserFailure())
+    }
+  }
+}
+
+export const deleteUsers = data => {
+  return async dispatch => {
+    dispatch(deleteUser())
+    try{
+      const response = await myApi.deleteUserData(data)
+      const result = await response.json()
+      dispatch(deleteUserSuccess(result))
+    } catch(error) {
+      dispatch(deleteUserFailure())
     }
   }
 }

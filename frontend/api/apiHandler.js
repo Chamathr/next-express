@@ -60,7 +60,7 @@ export const createAPIClient = (apiBaseURL) => ({
     return fetch(constructApiURL(apiBaseURL, path), {
       method: "DELETE",
       headers: getHeaders(),
-      credentials: "include",
+      // credentials: "include",
       timeout: 1000,
       "Content-Type": "application/json",
       query: JSON.stringify(data),

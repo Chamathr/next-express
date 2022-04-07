@@ -4,7 +4,7 @@ const ConnectDb = async () => {
     /*add 'mongo' to hosts file*/
     // const uri = "mongodb://mongo:27017/user-app";
     // const uri = "mongodb+srv://chamath:Kumar_123@cluster0.yz9ib.mongodb.net/user-app";
-    const mode = 'production'
+    const mode = 'dev'
     // const uri = mode === 'production' ? 'mongodb://mongodb-rec:KedbyBy8z1O3CZvIRSEa2wuCHQHp295vlSmo40c24OLqautqXEKpFIcJ1T6TGmYZccct0uiM0M63aWVa3crFyA==@mongodb-rec.mongo.cosmos.azure.com:10255/user-app?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@mongodb-rec@' : 'mongodb://mongo:27017/user-app'
     const uri = mode === 'production' ? 'mongodb://dev-chamath:tebkT8aaipswFzxTOjqUbctIEGB4CzYD2EJUGqAZSeY1xLrjfQS9GaUNpokczloEyNEIUEAnyDQyItoOGsEdFA==@dev-chamath.mongo.cosmos.azure.com:10255/user-app?ssl=true&replicaSet=globaldb&retrywrites=false&maxIdleTimeMS=120000&appName=@dev-chamath@' : 'mongodb://mongo:27017/user-app'
 
