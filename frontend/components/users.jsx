@@ -8,12 +8,15 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { useSelector, useDispatch } from 'react-redux';
-import { userSelector, fetchUsers, deleteUsers } from '../redux/slice/userSlice';
+import { userSelector, fetchUsers, deleteUsers, setUserEditData } from '../redux/slice/userSlice';
 import Link from 'next/link'
 import { Button } from 'react-bootstrap'
 import styles from '../styles/Users.module.scss'
+import { useRouter } from 'next/router'
 
 const Users = () => {
+
+  const router = useRouter()
 
   const { getUserData, getUserLoading, getUserError } = useSelector(userSelector)
   const dispatch = useDispatch();
@@ -43,6 +46,11 @@ const Users = () => {
   const handleDelete = (data) => {
       dispatch(deleteUsers(data))
       dispatch(fetchUsers())
+  }
+
+  const handleEdit = (data) => {
+    dispatch(setUserEditData(data))
+    router.push('/userForm')
   }
 
   if (getUserLoading) return <p>Loading...</p>
@@ -97,7 +105,7 @@ const Users = () => {
                     <StyledTableCell align="right">{data.age}</StyledTableCell>
 
                     <StyledTableCell align="right">
-                      <Button className={styles.btnGap}>
+                      <Button className={styles.btnGap} onClick={() => handleEdit(data)}>
                         Edit
                       </Button>
                       <Button onClick={() => handleDelete(data)}>

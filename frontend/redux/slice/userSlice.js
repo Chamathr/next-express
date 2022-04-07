@@ -13,6 +13,12 @@ const initialState = {
   deleteUserLoading: false,
   deleteUserError: false,
   deleteUserData: [],
+
+  editData: [],
+
+  editUserLoading: false,
+  editUserError: false,
+  editUserData: [],
 }
 
 export const userSlice = createSlice({
@@ -56,15 +62,32 @@ export const userSlice = createSlice({
     deleteUserFailure: state => {
       state.deleteUserLoading = false
       state.deleteUserError = true
+    },
+
+    setEditData: (state, { payload }) => {
+      state.editData = payload
+    },
+
+    editUser: state => {
+      state.editUserLoading = true
+    },
+    editUserSuccess: (state, { payload }) => {
+      state.editUserData = payload
+      state.editUserLoading = false
+      state.editUserError = false
+    },
+    editUserFailure: state => {
+      state.editUserLoading = false
+      state.editUserError = true
     }
   },
 });
 
 /*Three actions generated from the slice*/
-export const { getUsers, getUsersSuccess, getUsersFailure, addUser, addUserSuccess, addUserFailure, deleteUser, deleteUserSuccess, deleteUserFailure } = userSlice.actions
+export const { getUsers, getUsersSuccess, getUsersFailure, addUser, addUserSuccess, addUserFailure, deleteUser, deleteUserSuccess, deleteUserFailure, setEditData, editUser, editUserSuccess, editUserFailure } = userSlice.actions
 
 
-/*A selector*/
+/*Selector*/
 export const userSelector = state => state.user
 
 /*Asynchronous thunk action*/
@@ -103,6 +126,25 @@ export const deleteUsers = data => {
       dispatch(deleteUserSuccess(result))
     } catch(error) {
       dispatch(deleteUserFailure())
+    }
+  }
+}
+
+export const setUserEditData = data => {
+  return async dispatch => {
+    dispatch(setEditData(data))
+  }
+}
+
+export const editUsers = data => {
+  return async dispatch => {
+    dispatch(editUser())
+    try{
+      const response = await myApi.editUserData(data)
+      const result = await response.json()
+      dispatch(editUserSuccess(result))
+    } catch(error) {
+      dispatch(editUserFailure())
     }
   }
 }

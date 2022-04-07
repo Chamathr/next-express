@@ -38,13 +38,13 @@ export const createAPIClient = (apiBaseURL) => ({
       body: stringify ? JSON.stringify(data) : data
     });
   },
-  doPut: (path, data) => {
+  doPut: (path, data, stringify = true) => {
     return fetch(constructApiURL(apiBaseURL, path), {
       method: "PUT",
       headers: getHeaders(),
-      credentials: "include",
+      // credentials: "include",
       timeout: 1000,
-      body: JSON.stringify(data)
+      body: stringify ? JSON.stringify(data) : data
     });
   },
   doPatch: (path, data, stringify = true) => {

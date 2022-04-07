@@ -8,7 +8,8 @@ const myApiClient = createAPIClient(baseUri);
 const myApi = {
   getUserData: () => myApiClient.doGet("/users"),
   addUserData: (data) => myApiClient.doPost("/users", data),
-  deleteUserData: (data) => myApiClient.doDelete("/users", data)
+  deleteUserData: (data) => myApiClient.doDelete("/users", data),
+  editUserData: (data) => myApiClient.doPut("/users", data)
 };
 
 export default myApi;

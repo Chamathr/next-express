@@ -40,8 +40,8 @@ const addUsers = async (req, res, next) => {
 
 const updateUser = async (req, res, next) => {
     try{
-        const filter = { _id: req.body.id };
-        const update = { age: req.body.age };
+        const filter = { _id: req.body._id };
+        const update = { name: req.body.name, email: req.body.email, age: req.body.age };
         const userDetails = await User.findOneAndUpdate(filter, update, {
             new: true
         });
@@ -60,10 +60,9 @@ const deleteUser = async (req, res, next) => {
     try{
         const filter = { _id: req.body._id };
         await User.findOneAndDelete(filter)
-        res.send('User deleted successfully')
-        
         resultBody.status = 200;
         resultBody.result = '';
+        res.send(resultBody)
     }
     catch(error){
         errorBody.error = error
