@@ -1,7 +1,7 @@
 import { createAPIClient } from "./apiHandler";
 
 // const BASE_URL = process.env.REACT_APP_API_URI;
-const mode = 'dev'
+const mode = 'production'
 const baseUri = mode === 'production' ? 'https://usr-app-api.azurewebsites.net' : 'http://localhost:8000'
 const myApiClient = createAPIClient(baseUri);
 

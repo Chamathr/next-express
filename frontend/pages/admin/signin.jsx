@@ -11,10 +11,11 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { Password } from '@mui/icons-material';
 import { InputLabel } from '@mui/material';
 import { useState } from 'react'
+import Select from "react-select"
 
 const Copyright = (props) => {
   return (
@@ -34,10 +35,10 @@ const theme = createTheme();
 
 const SignIn = () => {
 
-const { register, handleSubmit , formState: { errors }} = useForm();
-const userName = register("userName", { required: true, minLength: 5 }); 
- 
-const onSignIn = async event => {
+  const { register, handleSubmit, control, formState: { errors } } = useForm();
+  const userName = register("userName", { required: true, minLength: 5 });
+
+  const onSignIn = async event => {
 
     // event.preventDefault()
 
@@ -59,9 +60,15 @@ const onSignIn = async event => {
 
     console.log(event)
     // result.user => 'Ada Lovelace'
-  }  
+  }
 
   const [name, setName] = useState('')
+
+  const genderData = [
+    { 'value': '', 'label': 'Select Option' },
+    { 'value': 'male', 'label': 'Male' },
+    { 'value': 'female', 'label': 'Female' }
+  ]
 
   return (
     <ThemeProvider theme={theme}>
@@ -94,13 +101,13 @@ const onSignIn = async event => {
               onChange={(e) => {
                 userName.onChange(e);
                 setName(e.target.value)
-                }
+              }
               }
             />
-            {errors.userName?.type === 'required' && <label style={{color:'red'}}>User name is required</label>}
-            {errors.userName?.type === 'minLength' && <label style={{color:'red'}}>Need to exceed min length</label>}
+            {errors.userName?.type === 'required' && <label style={{ color: 'red' }}>User name is required</label>}
+            {errors.userName?.type === 'minLength' && <label style={{ color: 'red' }}>Need to exceed min length</label>}
 
-            
+
             <TextField
               {...register("password", { required: true, pattern: /^[A-Za-z]+$/i, type: Password })}
               margin="normal"
@@ -111,7 +118,27 @@ const onSignIn = async event => {
               id="password"
               autoComplete="password"
             />
-            {errors.password?.type === 'required' && <label style={{color:'red'}}>Password is required</label>}
+            {errors.password?.type === 'required' && <label style={{ color: 'red' }}>Password is required</label>}
+
+            <Controller
+              {...register("gender", { required: true })}
+              name="gender"
+              control={control}
+              render={({ field }) => (
+                <Select
+                  // defaultValue={options[0]}
+                  {...field}
+                  label="User Name"
+                  isClearable // enable isClearable to demonstrate extra error handling
+                  isSearchable={false}
+                  className="react-dropdown"
+                  classNamePrefix="dropdown"
+                  options={genderData}
+                />
+              )}
+            />
+            {/* <p>{errors.gender?.message || errors.gender?.label.message}</p> */}
+            {errors.gender?.type === 'required' && <label style={{ color: 'red' }}>Option is required</label>}
 
             <Button
               type="submit"
