@@ -126,10 +126,9 @@ const SignIn = () => {
               control={control}
               render={({ field }) => (
                 <Select
-                  // defaultValue={options[0]}
                   {...field}
                   label="User Name"
-                  isClearable // enable isClearable to demonstrate extra error handling
+                  isClearable
                   isSearchable={false}
                   className="react-dropdown"
                   classNamePrefix="dropdown"
@@ -137,7 +136,6 @@ const SignIn = () => {
                 />
               )}
             />
-            {/* <p>{errors.gender?.message || errors.gender?.label.message}</p> */}
             {errors.gender?.type === 'required' && <label style={{ color: 'red' }}>Option is required</label>}
 
             <Button
