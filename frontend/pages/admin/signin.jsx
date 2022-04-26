@@ -60,16 +60,21 @@ const SignIn = () => {
 
     // const result = await res.json()
 
-    console.log(event)
     // result.user => 'Ada Lovelace'
   }
 
   const [name, setName] = useState('')
+  const [gender, setGender] = useState('')
+
 
   const genderData = [
     { 'value': 'male', 'label': 'Male' },
     { 'value': 'female', 'label': 'Female' }
   ]
+
+  const handleDropdown = (e) => {
+    setGender(e.value)
+  }
 
   return (
     <ThemeProvider theme={theme}>
@@ -134,6 +139,7 @@ const SignIn = () => {
                   classNamePrefix="dropdown"
                   instanceId="long-value-select"
                   options={genderData}
+                  onChange={handleDropdown}
                 />
               )}
             />
