@@ -76,6 +76,8 @@ const SignIn = () => {
     setGender(e.value)
   }
 
+  console.log('aaa', gender)
+
   return (
     <ThemeProvider theme={theme}>
       <Container component="main" maxWidth="xs">
@@ -130,16 +132,18 @@ const SignIn = () => {
               {...register("gender", { required: true })}
               name="gender"
               control={control}
-              render={({ field }) => (
+              render={({ field:{ onChange }  }) => (
                 <Select
-                  {...field}
                   isClearable
                   isSearchable={false}
                   className="react-dropdown"
                   classNamePrefix="dropdown"
                   instanceId="long-value-select"
                   options={genderData}
-                  onChange={handleDropdown}
+                  onChange={(e) => {
+                    onChange(e)
+                    handleDropdown(e)
+                  }}
                 />
               )}
             />
