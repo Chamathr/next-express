@@ -16,6 +16,8 @@ import { Password } from '@mui/icons-material';
 import { InputLabel } from '@mui/material';
 import { useState } from 'react'
 import Select from "react-select"
+import React from "react"
+
 
 const Copyright = (props) => {
   return (
@@ -65,7 +67,6 @@ const SignIn = () => {
   const [name, setName] = useState('')
 
   const genderData = [
-    { 'value': '', 'label': 'Select Option' },
     { 'value': 'male', 'label': 'Male' },
     { 'value': 'female', 'label': 'Female' }
   ]
@@ -127,11 +128,11 @@ const SignIn = () => {
               render={({ field }) => (
                 <Select
                   {...field}
-                  label="User Name"
                   isClearable
                   isSearchable={false}
                   className="react-dropdown"
                   classNamePrefix="dropdown"
+                  instanceId="long-value-select"
                   options={genderData}
                 />
               )}
