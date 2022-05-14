@@ -58,6 +58,8 @@ const SignIn = () => {
     //   }
     // )
 
+    console.log('beka')
+
     // const result = await res.json()
 
     // result.user => 'Ada Lovelace'
@@ -75,8 +77,6 @@ const SignIn = () => {
   const handleDropdown = (e) => {
     setGender(e.value)
   }
-
-  console.log('aaa', gender)
 
   return (
     <ThemeProvider theme={theme}>
