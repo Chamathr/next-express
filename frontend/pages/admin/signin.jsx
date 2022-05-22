@@ -2,7 +2,10 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -10,11 +13,12 @@ import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useForm, Controller } from "react-hook-form";
 import { Password } from '@mui/icons-material';
+import { InputLabel } from '@mui/material';
 import { useState } from 'react'
 import Select from "react-select"
 import React from "react"
+import { Formik, Field, Form, ErrorMessage, useFormik } from 'formik';
 import * as Yup from 'yup';
-import { Formik, Field, Form, ErrorMessage } from 'formik';
 
 
 const Copyright = (props) => {
@@ -35,119 +39,102 @@ const theme = createTheme();
 
 const SignIn = () => {
 
-  const { register, handleSubmit, control, formState: { errors } } = useForm();
-  const userName = register("userName", { required: true, minLength: 5 });
 
-  const onSignIn = async event => {
+  const initialValues = { userName: '', password: '', gender: '' }
+  const [formValues, setFormValues] = useState(initialValues)
 
-    // event.preventDefault()
+  const gender = ['', 'Male', 'Female']
 
-    // const res = await fetch(
+  const formik = useFormik({
+    initialValues: {
+      userName: '',
+      password: '',
+      gender: gender[0]
+    },
+    validationSchema: Yup.object({
+      userName: Yup.string()
+        .label('User Name')
+        .required(),
+      password: Yup.string()
+        .label('Password')
+        .required(),
+      gender: Yup.string()
+        .label('Gender')
+        .required()
+    }),
+    onSubmit: function (values) {
+      setFormValues(values)
+    },
 
-    //   'https://hooks.zapier.com/hooks/catch/123456/abcde',
-    //   {
-    //     body: JSON.stringify({
-    //       name: event.target.name.value
-    //     }),
-    //     headers: {
-    //       'Content-Type': 'application/json'
-    //     },
-    //     method: 'POST'
-    //   }
-    // )
+  })
 
-    console.log(gender)
-
-    // const result = await res.json()
-
-    // result.user => 'Ada Lovelace'
-  }
-
-  const [name, setName] = useState('')
-  const [gender, setGender] = useState('')
-
-
-  const genderData = [
-    { 'value': 'male', 'label': 'Male' },
-    { 'value': 'female', 'label': 'Female' }
-  ]
-
-  const handleDropdown = (e) => {
-    setGender(e.value)
-  }
-
-  // const handleGenderChange = (selectedGender, values) => {
-  //   setGender(selectedGender);
-  // };
+  console.log('12', formValues)
 
   return (
-    <div style={{ paddingLeft: "400px", paddingRight: "400px", paddingTop: "20px" }}>
-      <Formik
-        initialValues={{
-          name: '',
-          email: '',
-          password: '',
-          gender: ''
-        }}
-        validationSchema={Yup.object().shape({
-          name: Yup.string()
-            .required('Name is required'),
-          email: Yup.string()
-            .email('Email is invalid')
-            .required('Email is required'),
-          password: Yup.string()
-            .min(6, 'Password must be at least 6 characters')
-            .required('Password is required'),
-          gender: Yup.string()
-            .required('Gender is required'),
-        })}
-        onSubmit={fields => {
-          alert('SUCCESS!! :-)\n\n' + JSON.stringify(fields, null, 4))
-        }}
-        render={({ errors, status, touched }) => (
-          <Form>
-            <div className="form-group">
-              <label htmlFor="name">Name</label>
-              <Field name="name" type="text" className={'form-control' + (errors.name && touched.name ? ' is-invalid' : '')} />
-              <ErrorMessage name="name" component="div" className="invalid-feedback" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="email">Email</label>
-              <Field name="email" type="text" className={'form-control' + (errors.email && touched.email ? ' is-invalid' : '')} />
-              <ErrorMessage name="email" component="div" className="invalid-feedback" />
-            </div>
-            <div className="form-group">
-              <label htmlFor="password">Password</label>
-              <Field name="password" type="password" className={'form-control' + (errors.password && touched.password ? ' is-invalid' : '')} />
-              <ErrorMessage name="password" component="div" className="invalid-feedback" />
+    <ThemeProvider theme={theme}>
+      <Container component="main" maxWidth="xs">
+        <CssBaseline />
+        <Box
+          sx={{
+            marginTop: 8,
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main' }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Sign in
+          </Typography>
+          <Box component="form" sx={{ mt: 1 }} onSubmit={formik.handleSubmit}>
+
+            <TextField
+              type="text" name="userName" id="userName"
+              className={`block w-full rounded border py-1 px-2 ${formik.touched.userName && formik.errors.userName ? 'border-red-400' : 'border-gray-300'}`}
+              onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.userName}
+            />
+            {formik.touched.userName && formik.errors.userName && (
+              <div style={{ color: 'red' }}>{formik.errors.userName}</div>
+            )}
+
+            <TextField
+              type="text" name="password" id="password"
+              className={`block w-full rounded border py-1 px-2 ${formik.touched.password && formik.errors.password ? 'border-red-400' : 'border-gray-300'}`}
+              onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.password}
+            />
+            {formik.touched.password && formik.errors.password && (
+              <div style={{ color: 'red' }}>{formik.errors.password}</div>
+            )}
+
+            <div>
+              <select name="gender" id="gender"
+                className={`block w-full rounded border py-1 px-2 ${formik.touched.gender && formik.errors.gender ? 'border-red-400' : 'border-gray-300'}`}
+                onChange={formik.handleChange} onBlur={formik.handleBlur} value={formik.values.gender} >
+                {gender.map((gender, index) => (
+                  <option value={gender} key={index}>{gender}</option>
+                ))}
+              </select>
+              {formik.touched.gender && formik.errors.gender && (
+                <div style={{ color: 'red' }}>{formik.errors.gender}</div>
+              )}
             </div>
 
-            <div className="form-group">
-              <label for="gender">Gender</label>
-              <Select
-                  placeholder=""
-                  value={gender}
-                  onChange={selectedOption => {
-                    setGender(selectedOption)
-                  }}
-                  isSearchable={true}
-                  options={genderData}
-                  name="gender"
-                  isLoading={false}
-                  className={'form-control' + (errors.gender && touched.gender ? ' is-invalid' : '')}
-                />
-              <ErrorMessage name="gender" component="div" className="invalid-feedback" />
 
-            </div>
-
-            <div className="form-group" style={{ paddingTop: "20px" }}>
-              <button type="submit" className="btn btn-primary mr-2">Register</button>
-              <button type="reset" className="btn btn-secondary" style={{ marginLeft: "10px" }}>Reset</button>
-            </div>
-          </Form>
-        )}
-      />
-    </div>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Sign In
+            </Button>
+          </Box>
+        </Box>
+        <Copyright sx={{ mt: 8, mb: 4 }} />
+      </Container>
+    </ThemeProvider>
   );
 }
 
